@@ -5,7 +5,7 @@ import dev.pollito.users_manager.model.Users;
 import java.util.List;
 
 public interface UserService {
-  Users findAll(Integer pageNumber, Integer pageSize, List<String> pageSort);
+  Users findAll(Integer pageNumber, Integer pageSize, List<String> pageSort, String q);
 
   User findById(Long id);
 }

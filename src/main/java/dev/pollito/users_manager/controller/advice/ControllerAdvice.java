@@ -2,6 +2,7 @@ package dev.pollito.users_manager.controller.advice;
 
 import exception.JsonPlaceholderException;
 import io.opentelemetry.api.trace.Span;
+import jakarta.validation.ConstraintViolationException;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.util.NoSuchElementException;
@@ -46,6 +47,11 @@ public class ControllerAdvice {
   @ExceptionHandler(NoSuchElementException.class)
   public ProblemDetail handle(@NotNull NoSuchElementException e) {
     return problemDetail(e, HttpStatus.NOT_FOUND);
+  }
+
+  @ExceptionHandler(ConstraintViolationException.class)
+  public ProblemDetail handle(@NotNull ConstraintViolationException e) {
+    return problemDetail(e, HttpStatus.BAD_REQUEST);
   }
 
   @ExceptionHandler(JsonPlaceholderException.class)

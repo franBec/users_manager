@@ -37,8 +37,10 @@ paths:
             Sorting criteria in the format `field:direction`. Specify multiple
             sort criteria by repeating the `sort` query parameter. For example:
             `?pageSort=name:desc&pageSort=id:asc`. Available field values:
-            `id`, `name`, `username`, `email`. Available direction values: `asc`,
-            `desc`. If direction value is omitted it defaults to `asc`
+            `id`, `name`, `username`, `email`. If field value is omitted or is 
+            not a valid value, it defaults to `id`. Available direction values:
+            `asc`, `desc`. If direction value is omitted or is not a valid value,
+            it defaults to `asc`
           explode: true
           in: query
           name: pageSort
@@ -47,6 +49,16 @@ paths:
             items:
               type: string
             type: array
+        - description: >
+            Use this parameter to filter users by checking if provided string is part
+            of `email`, `name`, or `username` (all ignore case). If not used, no
+            filtering will be done.
+          in: query
+          name: q
+          schema:
+            minLength: 2
+            maxLength: 255
+            type: string
       responses:
         '200':
           description: List of all users

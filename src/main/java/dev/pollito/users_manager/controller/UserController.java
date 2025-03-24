@@ -16,8 +16,8 @@ public class UserController implements UsersApi {
 
   @Override
   public ResponseEntity<Users> findAll(
-      Integer pageNumber, Integer pageSize, List<String> pageSort) {
-    return ResponseEntity.ok(userService.findAll(pageNumber, pageSize, pageSort));
+      Integer pageNumber, Integer pageSize, List<String> pageSort, String q) {
+    return ResponseEntity.ok(userService.findAll(pageNumber, pageSize, pageSort, q));
   }
 
   @Override
