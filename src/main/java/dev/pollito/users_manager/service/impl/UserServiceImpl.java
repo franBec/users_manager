@@ -1,24 +1,34 @@
 package dev.pollito.users_manager.service.impl;
 
+import com.typicode.jsonplaceholder.api.UserApi;
+import dev.pollito.users_manager.mapper.UserMapper;
 import dev.pollito.users_manager.model.User;
 import dev.pollito.users_manager.model.Users;
 import dev.pollito.users_manager.service.UserService;
 import java.util.List;
+import java.util.Objects;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-  private static final User USER_1 =
-      new User().id(1L).name("Leanne Graham").username("Bret").email("Sincere@april.biz");
+  private final UserApi userApi;
+  private final UserMapper userMapper;
 
   @Override
   public Users findAll(Integer pageNumber, Integer pageSize, List<String> pageSort) {
-    return new Users().content(List.of(USER_1));
+    return new Users().content(userMapper.map(userApi.getUsers()));
   }
 
   @Override
   public User findById(Long id) {
-    return USER_1;
+    return userMapper.map(
+        userApi.getUsers().stream()
+            .filter(u -> Objects.nonNull(u.getId()))
+            .filter(u -> u.getId() == id.intValue())
+            .findFirst()
+            .orElseThrow());
   }
 }
