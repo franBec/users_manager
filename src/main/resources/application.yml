@@ -1,5 +1,6 @@
 jsonplaceholder:
   baseUrl: https://jsonplaceholder.typicode.com/
+  expiresAfter: 24 #hours
 spring:
   application:
     name: users_manager
