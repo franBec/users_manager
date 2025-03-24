@@ -1,0 +1,5 @@
+jsonplaceholder:
+  baseUrl: https://jsonplaceholder.typicode.com/
+spring:
+  application:
+    name: users_manager

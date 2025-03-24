@@ -1,3 +1,5 @@
+import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.4.3'
@@ -51,6 +53,11 @@ dependencies {
 	implementation 'io.swagger.core.v3:swagger-core-jakarta:2.2.28'
 	implementation 'org.openapitools:jackson-databind-nullable:0.2.6'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.2.1'
+	implementation 'io.github.openfeign:feign-okhttp:13.5'
+	implementation 'io.github.openfeign:feign-jackson:13.5'
+	implementation 'io.github.openfeign:feign-gson:13.5'
 }
 
 tasks.named('test') {
@@ -63,7 +70,7 @@ tasks.named("build") {
 }
 
 tasks.named('compileJava') {
-	dependsOn 'openApiGenerate'
+	dependsOn 'openApiGenerate', 'openApiGenerateFeign_jsonplaceholder'
 }
 
 spotless {
@@ -81,7 +88,7 @@ spotless {
 }
 
 openApiGenerate {
-	apiPackage = "${group}.${project.name}.api".toString()
+	apiPackage = "${project.group}.${project.name}.api".toString()
 	configOptions = [
 		interfaceOnly: "true",
 		skipOperationExample: "true",
@@ -94,6 +101,25 @@ openApiGenerate {
 	generateModelDocumentation = false
 	generatorName = "spring"
 	inputSpec = "$rootDir/src/main/resources/openapi/users_manager.yaml".toString()
-	modelPackage = "${group}.${project.name}.model".toString()
+	modelPackage = "${project.group}.${project.name}.model".toString()
+	outputDir = layout.buildDirectory.dir("generated/sources/openapi").get().asFile.toString()
+}
+
+tasks.register("openApiGenerateFeign_jsonplaceholder", GenerateTask) {
+	apiPackage = "com.typicode.jsonplaceholder.api".toString()
+	configOptions = [
+		"feignClient": "true",
+		"interfaceOnly": "true",
+		"useEnumCaseInsensitive": "true",
+		"useJakartaEe": "true"
+	]
+	generateApiTests = false
+	generateApiDocumentation = false
+	generateModelTests = false
+	generateModelDocumentation = false
+	generatorName = "java"
+	inputSpec = "$rootDir/src/main/resources/openapi/jsonplaceholder.yaml".toString()
+	library = "feign"
+	modelPackage = "com.typicode.jsonplaceholder.model".toString()
 	outputDir = layout.buildDirectory.dir("generated/sources/openapi").get().asFile.toString()
 }
