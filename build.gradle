@@ -55,17 +55,9 @@ dependencies {
 	implementation 'org.openapitools:jackson-databind-nullable:0.2.6'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.2.1'
-	implementation 'io.github.openfeign:feign-okhttp:13.5'
-	implementation 'io.github.openfeign:feign-jackson:13.5'
-	implementation 'io.github.openfeign:feign-gson:13.5'
-
 	implementation 'org.mapstruct:mapstruct:1.6.3'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
 	annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
-
-	implementation 'org.springframework.boot:spring-boot-starter-cache'
-	implementation 'com.github.ben-manes.caffeine:caffeine:3.2.0'
 }
 
 tasks.named('test') {
@@ -79,7 +71,7 @@ tasks.named("build") {
 }
 
 tasks.named('compileJava') {
-	dependsOn 'openApiGenerate', 'openApiGenerateFeign_jsonplaceholder'
+	dependsOn 'openApiGenerate'
 }
 
 spotless {
@@ -111,25 +103,6 @@ openApiGenerate {
 	generatorName = "spring"
 	inputSpec = "$rootDir/src/main/resources/openapi/users_manager.yaml".toString()
 	modelPackage = "${project.group}.${project.name}.model".toString()
-	outputDir = layout.buildDirectory.dir("generated/sources/openapi").get().asFile.toString()
-}
-
-tasks.register("openApiGenerateFeign_jsonplaceholder", GenerateTask) {
-	apiPackage = "com.typicode.jsonplaceholder.api".toString()
-	configOptions = [
-		"feignClient": "true",
-		"interfaceOnly": "true",
-		"useEnumCaseInsensitive": "true",
-		"useJakartaEe": "true"
-	]
-	generateApiTests = false
-	generateApiDocumentation = false
-	generateModelTests = false
-	generateModelDocumentation = false
-	generatorName = "java"
-	inputSpec = "$rootDir/src/main/resources/openapi/jsonplaceholder.yaml".toString()
-	library = "feign"
-	modelPackage = "com.typicode.jsonplaceholder.model".toString()
 	outputDir = layout.buildDirectory.dir("generated/sources/openapi").get().asFile.toString()
 }
 

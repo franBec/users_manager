@@ -1,6 +1,5 @@
 package dev.pollito.users_manager.controller.advice;
 
-import exception.JsonPlaceholderException;
 import io.opentelemetry.api.trace.Span;
 import jakarta.validation.ConstraintViolationException;
 import java.time.Instant;
@@ -52,14 +51,5 @@ public class ControllerAdvice {
   @ExceptionHandler(ConstraintViolationException.class)
   public ProblemDetail handle(@NotNull ConstraintViolationException e) {
     return problemDetail(e, HttpStatus.BAD_REQUEST);
-  }
-
-  @ExceptionHandler(JsonPlaceholderException.class)
-  public ProblemDetail handle(@NotNull JsonPlaceholderException e) {
-    return problemDetail(
-        e,
-        e.getStatus() == HttpStatus.BAD_REQUEST.value()
-            ? HttpStatus.BAD_REQUEST
-            : HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }
