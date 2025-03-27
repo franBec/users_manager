@@ -2,20 +2,15 @@ package dev.pollito.users_manager.controller.advice;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
-import dev.pollito.users_manager.exception.JsonPlaceholderException;
 import jakarta.validation.ConstraintViolationException;
 import java.util.NoSuchElementException;
-import java.util.stream.Stream;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -64,17 +59,9 @@ class ControllerAdviceTest {
     problemDetailAssertions(controllerAdvice.handle(e), e, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
-  @Contract(pure = true)
-  private static @NotNull Stream<HttpStatus> httpStatusProvider() {
-    return Stream.of(HttpStatus.BAD_REQUEST, HttpStatus.INTERNAL_SERVER_ERROR);
-  }
-
-  @ParameterizedTest
-  @MethodSource("httpStatusProvider")
-  void whenJsonPlaceholderExceptionThenReturnProblemDetail(@NotNull HttpStatus httpStatus) {
-    JsonPlaceholderException e = mock(JsonPlaceholderException.class);
-    when(e.getStatus()).thenReturn(httpStatus.value());
-
-    problemDetailAssertions(controllerAdvice.handle(e), e, httpStatus);
+  @Test
+  void whenPropertyReferenceExceptionThenReturnProblemDetail() {
+    PropertyReferenceException e = mock(PropertyReferenceException.class);
+    problemDetailAssertions(controllerAdvice.handle(e), e, HttpStatus.BAD_REQUEST);
   }
 }

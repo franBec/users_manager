@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.NoSuchElementException;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -50,6 +51,11 @@ public class ControllerAdvice {
 
   @ExceptionHandler(ConstraintViolationException.class)
   public ProblemDetail handle(@NotNull ConstraintViolationException e) {
+    return problemDetail(e, HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(PropertyReferenceException.class)
+  public ProblemDetail handle(@NotNull PropertyReferenceException e) {
     return problemDetail(e, HttpStatus.BAD_REQUEST);
   }
 }
