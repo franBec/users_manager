@@ -1,7 +1,7 @@
 package dev.pollito.users_manager.adapter.in.rest;
 
-import dev.pollito.users_manager.adapter.in.rest.dto.UserMapper;
 import dev.pollito.users_manager.adapter.in.rest.dto.UserResponseDTO;
+import dev.pollito.users_manager.adapter.in.rest.mapper.UserMapper;
 import dev.pollito.users_manager.domain.port.in.UserService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class UserController {
   private final UserMapper userMapper;
 
   @GetMapping
-  public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
+  public ResponseEntity<List<UserResponseDTO>> getUsers() {
     return ResponseEntity.ok(userService.getUsers().stream().map(userMapper::map).toList());
   }
 }
