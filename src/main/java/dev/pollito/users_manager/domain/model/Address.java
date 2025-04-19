@@ -9,14 +9,10 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @Data
 @FieldDefaults(level = PRIVATE)
-public class User {
-  Long id;
-  String name;
-  String username;
-  String email;
-  Address address;
-  String phone;
-  String website;
-  Company company;
-  String profilePictureUrl;
+public class Address {
+  String street;
+  String suite;
+  String city;
+  String zipcode;
+  Geo geo;
 }
