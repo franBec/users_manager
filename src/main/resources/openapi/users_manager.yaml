@@ -16,44 +16,15 @@ paths:
         - User
       summary: List all users
       operationId: findAll
-      parameters:
-        - description: Zero-based page index (0..N)
-          in: query
-          name: pageNumber
-          schema:
-            default: 0
-            minimum: 0
-            maximum: 2147483647
-            type: integer
-        - description: Size of the page to be returned
-          in: query
-          name: pageSize
-          schema:
-            default: 10
-            maximum: 10
-            minimum: 1
-            type: integer
-        - description: >
-            Sorting criteria in the format `field:direction`. Specify multiple
-            sort criteria by repeating the `sort` query parameter. For example:
-            `?pageSort=name:desc&pageSort=id:asc`. Available field values:
-            `id`, `name`, `username`, `email`. Available direction values: `asc`,
-            `desc`. If direction value is omitted it defaults to `asc`
-          explode: true
-          in: query
-          name: pageSort
-          schema:
-            default: [ id:asc ]
-            items:
-              type: string
-            type: array
       responses:
         '200':
           description: List of all users
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserPage'
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
         default:
           description: Error
           content:
@@ -170,28 +141,6 @@ components:
           example: "81.1496"
           type: string
       type: object
-    Page:
-      properties:
-        content:
-          type: object
-        pageable:
-          $ref: '#/components/schemas/Pageable'
-        totalElements:
-          description: Total number of items that meet the criteria
-          example: 10
-          type: integer
-      type: object
-    Pageable:
-      type: object
-      properties:
-        pageNumber:
-          description: Current page number (starts from 0)
-          example: 0
-          type: integer
-        pageSize:
-          description: Number of items retrieved on this page
-          example: 1
-          type: integer
     User:
       properties:
         address:
@@ -227,10 +176,3 @@ components:
           description: User website
           example: "hildegard.org"
           type: string
-    UserPage:
-      allOf:
-        - $ref: '#/components/schemas/Page'
-        - type: object
-          properties:
-            content:
-              $ref: '#/components/schemas/User'
