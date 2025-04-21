@@ -1,4 +1,4 @@
-package dev.pollito.users_manager.adapter.in.rest.advice;
+package dev.pollito.users_manager.config.advice;
 
 import io.opentelemetry.api.trace.Span;
 import java.time.Instant;

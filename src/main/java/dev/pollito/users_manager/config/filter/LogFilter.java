@@ -1,4 +1,4 @@
-package dev.pollito.users_manager.adapter.in.filter;
+package dev.pollito.users_manager.config.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
