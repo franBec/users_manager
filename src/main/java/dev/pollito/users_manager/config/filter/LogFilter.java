@@ -35,7 +35,7 @@ public class LogFilter extends OncePerRequestFilter {
         headersToString(request));
   }
 
-  public String headersToString(@NotNull HttpServletRequest request) {
+  private @NotNull String headersToString(@NotNull HttpServletRequest request) {
     Enumeration<String> headerNames = request.getHeaderNames();
     StringBuilder stringBuilder = new StringBuilder("{");
 
