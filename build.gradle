@@ -5,6 +5,8 @@ plugins {
 	id 'com.diffplug.spotless' version '6.25.0'
 
 	id 'org.openapi.generator' version '7.12.0'
+
+	id 'info.solidsoft.pitest' version '1.15.0'
 }
 
 sourceSets {
@@ -59,6 +61,7 @@ dependencies {
 }
 
 tasks.named('test') {
+	dependsOn 'pitest'
 	useJUnitPlatform()
 }
 
@@ -101,4 +104,23 @@ openApiGenerate {
 	inputSpec = "$rootDir/src/main/resources/openapi/users_manager.yaml".toString()
 	modelPackage = "${project.group}.${project.name}.adapter.in.rest.dto".toString()
 	outputDir = layout.buildDirectory.dir("generated/sources/openapi").get().asFile.toString()
+}
+
+pitest {
+	junit5PluginVersion = '1.2.1'
+	outputFormats = ['HTML']
+	targetClasses = [
+		"${project.group}.${project.name}.adapter.in.rest.*".toString(),
+		"${project.group}.${project.name}.config.advice.*".toString(),
+		"${project.group}.${project.name}.domain.service.*".toString(),
+	]
+	excludedClasses = [
+		// exclude all subpackages in adapter.in.rest, such as mappers and openApi generated code
+		"${project.group}.${project.name}.adapter.in.rest.*.*".toString()
+	]
+	targetTests = [
+		"${project.group}.${project.name}.*".toString()
+	]
+	timestampedReports = false
+	useClasspathFile = true
 }
