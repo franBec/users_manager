@@ -7,14 +7,8 @@ import lombok.experimental.FieldDefaults;
 
 @Data
 @FieldDefaults(level = PRIVATE)
-public class User {
-  Long id;
+public class Company {
+  String bs;
+  String catchPhrase;
   String name;
-  String username;
-  String email;
-  String phone;
-  String profilePictureUrl;
-  String website;
-  Address address;
-  Company company;
 }

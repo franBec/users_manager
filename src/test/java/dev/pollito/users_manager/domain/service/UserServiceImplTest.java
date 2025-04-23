@@ -13,12 +13,12 @@ class UserServiceImplTest {
   @InjectMocks private UserServiceImpl userService;
 
   @Test
-  void shouldReturnUsersList_whenGetUsers() {
-    assertNotNull(userService.getUsers());
+  void shouldReturnUsersList_whenFindAll() {
+    assertNotNull(userService.findAll());
   }
 
   @Test
-  void shouldThrowNotImplementedException_whenGetUserById() {
-    assertThrows(NotImplementedException.class, () -> userService.getUserById(-1L));
+  void shouldThrowNotImplementedException_whenFindById() {
+    assertThrows(NotImplementedException.class, () -> userService.findById(-1L));
   }
 }

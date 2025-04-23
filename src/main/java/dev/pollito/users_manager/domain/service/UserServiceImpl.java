@@ -2,27 +2,23 @@ package dev.pollito.users_manager.domain.service;
 
 import dev.pollito.users_manager.domain.model.User;
 import dev.pollito.users_manager.domain.port.in.UserService;
+import dev.pollito.users_manager.domain.port.out.UserApiClient;
 import java.util.List;
-import org.apache.commons.lang3.NotImplementedException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-  private static final User USER_1 =
-      User.builder()
-          .id(1L)
-          .name("Leanne Graham")
-          .username("Bret")
-          .email("Sincere@april.biz")
-          .build();
+  private final UserApiClient userApiClient;
 
   @Override
-  public List<User> getUsers() {
-    return List.of(USER_1);
+  public List<User> findAll() {
+    return userApiClient.findAll();
   }
 
   @Override
-  public User getUserById(Long id) {
-    throw new NotImplementedException();
+  public User findById(Long id) {
+    return userApiClient.findById(id);
   }
 }

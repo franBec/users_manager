@@ -10,7 +10,7 @@ paths:
     get:
       tags:
         - User
-      operationId: getUsers
+      operationId: findAll
       summary: Get list of all users
       responses:
         "200":
@@ -21,6 +21,33 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/User"
+        default:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+  /users/{id}:
+    get:
+      tags:
+        - User
+      summary: Get user by identifier
+      operationId: findById
+      parameters:
+        - description: User identifier
+          in: path
+          name: id
+          required: true
+          schema:
+            format: int64
+            type: integer
+      responses:
+        '200':
+          description: A user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
         default:
           description: Error
           content:

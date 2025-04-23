@@ -9,7 +9,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpStatus.OK;
 
 import dev.pollito.users_manager.adapter.in.rest.dto.User;
-import dev.pollito.users_manager.adapter.in.rest.mapper.UserMapper;
+import dev.pollito.users_manager.adapter.in.rest.mapper.AdapterInRestUserMapper;
 import dev.pollito.users_manager.domain.port.in.UserService;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -27,11 +27,12 @@ class UserControllerTest {
 
   @SuppressWarnings("unused")
   @Spy
-  private UserMapper userMapper = getMapper(UserMapper.class);
+  private AdapterInRestUserMapper adapterInRestUserMapper =
+      getMapper(AdapterInRestUserMapper.class);
 
   @Test
   void shouldReturnOk_whenFindAll() {
-    when(userService.getUsers()).thenReturn(emptyList());
+    when(userService.findAll()).thenReturn(emptyList());
     ResponseEntity<List<User>> response = userController.findAll();
     assertEquals(OK, response.getStatusCode());
     assertNotNull(response.getBody());
@@ -39,7 +40,7 @@ class UserControllerTest {
 
   @Test
   void shouldReturnOk_whenFindById() {
-    when(userService.getUserById(anyLong()))
+    when(userService.findById(anyLong()))
         .thenReturn(mock(dev.pollito.users_manager.domain.model.User.class));
     ResponseEntity<User> response = userController.findById(1L);
     assertEquals(OK, response.getStatusCode());
