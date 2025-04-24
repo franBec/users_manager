@@ -1,24 +1,35 @@
 package dev.pollito.users_manager.domain.service;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-import org.apache.commons.lang3.NotImplementedException;
+import dev.pollito.users_manager.domain.model.User;
+import dev.pollito.users_manager.domain.port.out.UserApiClient;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceImplTest {
   @InjectMocks private UserServiceImpl userService;
+  @Mock private UserApiClient userApiClient;
 
   @Test
-  void shouldReturnUsersList_whenFindAll() {
-    assertNotNull(userService.findAll());
+  void shouldReturnUserList_whenFindAll() {
+    List<User> users = List.of(mock(User.class));
+    when(userApiClient.findAll()).thenReturn(users);
+    assertEquals(users.size(), userService.findAll().size());
   }
 
   @Test
-  void shouldThrowNotImplementedException_whenFindById() {
-    assertThrows(NotImplementedException.class, () -> userService.findById(-1L));
+  void shouldReturnUser_whenFindById() {
+    when(userApiClient.findById(anyLong())).thenReturn(mock(User.class));
+    assertNotNull(userService.findById(1L));
   }
 }

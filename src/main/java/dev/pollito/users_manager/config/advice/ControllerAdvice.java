@@ -1,5 +1,6 @@
 package dev.pollito.users_manager.config.advice;
 
+import dev.pollito.users_manager.config.feign.FeignException;
 import io.opentelemetry.api.trace.Span;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
@@ -28,6 +29,14 @@ public class ControllerAdvice {
 
   @ExceptionHandler(Exception.class)
   public ProblemDetail handle(@NotNull Exception e) {
+    return buildProblemDetail(e, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
+  @ExceptionHandler(FeignException.class)
+  public ProblemDetail handle(@NotNull FeignException e) {
+    if (e.getStatus() == HttpStatus.NOT_FOUND.value()) {
+      return buildProblemDetail(e, HttpStatus.NOT_FOUND);
+    }
     return buildProblemDetail(e, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
