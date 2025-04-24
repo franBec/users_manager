@@ -8,7 +8,7 @@ import static org.mockito.Mockito.*;
 import com.typicode.jsonplaceholder.api.UserApi;
 import com.typicode.jsonplaceholder.model.User;
 import dev.pollito.users_manager.adapter.out.rest.mapper.AdapterOutRestUserMapper;
-import dev.pollito.users_manager.config.feign.FeignException;
+import feign.FeignException;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -44,7 +44,7 @@ class UserApiClientImplTest {
   @Test
   void shouldReturnEmptyOptional_whenUserApiClientThrowsFeignExceptionStatusNotFound() {
     FeignException e = mock(FeignException.class);
-    when(e.getStatus()).thenReturn(HttpStatus.NOT_FOUND.value());
+    when(e.status()).thenReturn(HttpStatus.NOT_FOUND.value());
     when(userApi.findById(anyLong())).thenThrow(e);
     assertTrue(userApiClient.findById(1L).isEmpty());
   }
@@ -52,7 +52,7 @@ class UserApiClientImplTest {
   @Test
   void shouldThrowFeignException_whenUserApiClientThrowsFeignException() {
     FeignException e = mock(FeignException.class);
-    when(e.getStatus()).thenReturn(HttpStatus.INTERNAL_SERVER_ERROR.value());
+    when(e.status()).thenReturn(HttpStatus.INTERNAL_SERVER_ERROR.value());
     when(userApi.findById(anyLong())).thenThrow(e);
     assertThrows(FeignException.class, () -> userApiClient.findById(1L));
   }

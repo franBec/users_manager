@@ -11,15 +11,11 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 public class JsonPlaceholderApiConfig {
   private final JsonPlaceholderConfigProperties jsonPlaceholderConfigProperties;
-  private final JsonPlaceholderErrorDecoder jsonPlaceholderErrorDecoder;
 
   @Bean
   public ApiClient apiClient() {
     ApiClient apiClient = new ApiClient();
     apiClient.setBasePath(jsonPlaceholderConfigProperties.getBaseUrl());
-    apiClient.setFeignBuilder(
-        apiClient.getFeignBuilder().errorDecoder(jsonPlaceholderErrorDecoder));
-
     return apiClient;
   }
 
