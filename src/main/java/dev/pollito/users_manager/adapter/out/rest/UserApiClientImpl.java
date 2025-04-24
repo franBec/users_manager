@@ -2,10 +2,13 @@ package dev.pollito.users_manager.adapter.out.rest;
 
 import com.typicode.jsonplaceholder.api.UserApi;
 import dev.pollito.users_manager.adapter.out.rest.mapper.AdapterOutRestUserMapper;
+import dev.pollito.users_manager.config.feign.FeignException;
 import dev.pollito.users_manager.domain.model.User;
 import dev.pollito.users_manager.domain.port.out.UserApiClient;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,7 +23,14 @@ public class UserApiClientImpl implements UserApiClient {
   }
 
   @Override
-  public User findById(Long id) {
-    return adapterOutRestUserMapper.map(userApi.findById(id));
+  public Optional<User> findById(Long id) {
+    try {
+      return Optional.of(adapterOutRestUserMapper.map(userApi.findById(id)));
+    } catch (FeignException e) {
+      if (e.getStatus() == HttpStatus.NOT_FOUND.value()) {
+        return Optional.empty();
+      }
+      throw e;
+    }
   }
 }

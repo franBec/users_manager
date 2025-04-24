@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 import dev.pollito.users_manager.domain.model.User;
 import dev.pollito.users_manager.domain.port.out.UserApiClient;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,7 +29,7 @@ class UserServiceImplTest {
 
   @Test
   void shouldReturnUser_whenFindById() {
-    when(userApiClient.findById(anyLong())).thenReturn(mock(User.class));
+    when(userApiClient.findById(anyLong())).thenReturn(Optional.of(mock(User.class)));
     assertNotNull(userService.findById(1L));
   }
 }

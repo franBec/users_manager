@@ -19,6 +19,6 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public User findById(Long id) {
-    return userApiClient.findById(id);
+    return userApiClient.findById(id).orElseThrow();
   }
 }
