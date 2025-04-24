@@ -144,7 +144,6 @@ pitest {
 	excludedClasses = [
 		// exclude all subpackages in adapter.in.rest, such as mappers and openApi generated code
 		"${project.group}.${project.name}.adapter.in.rest.*.*".toString(),
-
 		// exclude all subpackages in adapter.in.rest, such as mappers
 		"${project.group}.${project.name}.adapter.out.rest.*.*".toString()
 	]
