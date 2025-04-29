@@ -141,6 +141,7 @@ pitest {
 	targetClasses = [
 		"${project.group}.${project.name}.adapter.in.rest.*".toString(),
 		"${project.group}.${project.name}.adapter.out.rest.*".toString(),
+		"${project.group}.${project.name}.adapter.out.jpa.*".toString(),
 		"${project.group}.${project.name}.config.advice.*".toString(),
 		"${project.group}.${project.name}.domain.service.*".toString(),
 	]
@@ -148,7 +149,9 @@ pitest {
 		// exclude all subpackages in adapter.in.rest, such as mappers and openApi generated code
 		"${project.group}.${project.name}.adapter.in.rest.*.*".toString(),
 		// exclude all subpackages in adapter.in.rest, such as mappers
-		"${project.group}.${project.name}.adapter.out.rest.*.*".toString()
+		"${project.group}.${project.name}.adapter.out.rest.*.*".toString(),
+		// exclude all subpackages in adapter.out.jpa, such as entities
+		"${project.group}.${project.name}.adapter.out.jpa.*.*".toString(),
 	]
 	targetTests = [
 		"${project.group}.${project.name}.*".toString()
